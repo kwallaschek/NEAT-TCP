@@ -1,0 +1,68 @@
+%************************************************
+\chapter{Discussion}\label{ch:discussion} % $\mathbb{ZNR}$
+%************************************************
+\glsresetall % Resets all acronyms to not used
+A wide variety of results were gathered in multiple different setups in \autoref{ch:evaluation} and are discusses in this section. At first, we discuss how to comprehend these results and derive use cases for NEAT-TCP. Then NEAT-TCP in general is discussed in relation to applicability and convergence. In the last part of this chapter we discuss future work for NEAT-TCP.
+
+\section{Discussion of results}\label{sec:resultsDiscussion}
+In \autoref{sec:resConclusion} it can be seen that NEAT-TCP1 reaches its target of providing high fairness and respectable throughput. NEAT-TCP2 achieved about the same throughput and fairness as New Reno with less end-to-end delay, but higher packet loss. This could indicate that more throughput is not possible in this setup. However, there is some room for variety in end-to-end delay and packet loss, while achieving the "maximum" total throughput. \\
+For the evolution, only experiments 1, 4, 7 and 10 achieved a sufficient fitness. These experiments share the activation function \autoref{eq:sigmoid}. This either indicates that decision based neural networks are superior, or that for the given parameters for NEAT it was the only setup that could evolve fast enough. In \autoref{subsec:diffNEATpar} this is discussed further.
+However, NEAT-TCP1 is the only congestion control algorithm tested, that enables the potential of wireless multi-hop networks. All flows have respectable throughput with very short end-to-end delay and very small packet loss. 
+
+\subsection{NEAT-TCP in Different Topologies}\label{subsec:neatDiffTop}
+While NEAT-TCP1 and 2 were evolved in the 5x5 topology, they still have a good performance in 3x3 and a respectable performance in 6x6. NEAT-TCP1 in particular has similar behaviour in 3x3 in relation to New Reno. \\\\
+This could indicate that NEAT-TCP could evolve for a variety of network topologies. So maybe the provided network model does not have to be precise. Yet, for 6x6 it can be seen, for packet loss in particular, that some measures can vary a lot. So the number of network setups that the evolved congestion control algorithm can satisfy is restricted. To state this with confidence, it has to be tested in more topologies and also in a non grid topology. 
+
+\subsection{Different NEAT Parameters}\label{subsec:diffNEATpar}
+We priorly discussed that the evolutions with $\phi_2$ could have worse performance because of the \textit{Weight Mutation Power}. 
+The guess was that the weights were not mutated satisfying enough.
+So we conducted the evolutions 2, 3, 5 and 6 again with the same parameters as \texttt{p2nv.ne} but with a \textit{Weight Mutation Power} of 5 instead of 1.8. 
+The results of these follow up evolutions can be found in \autoref{tab:followup}. It can be seen that there has been only a slight improvement in fitness. This was to be expected, because a stronger weight mutation can be achieved with some intermediate nodes that multiply the values multiple times with lower power, instead of one strong multiplication. The next guess is that a better result can be achieved with a larger population and a higher number of epochs. 
+\begin{table}[htbp]
+  \centering
+  \caption{Follow up evolution of experiments 2-3 and 5-6 with a different \textit{Weight Mutation Power}}
+    \begin{tabular}{|l|l|r|}\hline
+          & Highest Fitness Achieved & \multicolumn{1}{l|}{Epoch of Best Performing NN} \\ \hline
+    Experiment 2 & 0.676702 & 87 \\ \hline
+    Experiment 3 & 0.722285 & 49 \\ \hline
+    Experiment 5 & 0.726794 & 53 \\ \hline
+    Experiment 6 & 0.739769 & 34 \\ \hline
+    \end{tabular}%
+  \label{tab:followup}%
+\end{table}%
+
+\section{Congestion Control vs. Balancing Tasks}\label{sec:congVSbalancing}
+It is interesting to see that the best performing neural networks were evolved with a setup that can also solve the double pole balancing on one cart problem. Congestion control is in a way a balancing task. But rather than the double pole balancing it is a distributed one. This could be an indication that NEAT is able to solve distributed balancing problems, which has not been discovered yet. In congestion control the congestion window is controlled which affects the throughput. So NEAT-TCP balances the throughput of all flows at about the same level, which is similar to balancing two poles on a cart, but distributed.
+
+\section{NEAT-TCP Convergence}\label{sec:neatConvergence}
+With limited time it is not easy to build statements on convergence. NEAT has three stop criteria: (i) target fitness is achieved, (ii) the number of epochs is reached or (iii) abortion by the user. Convergence is only considered by (i). Because NEAT is based on randomness in its mutations, each NEAT evolution converges differently. It can be stated that the earlier NEAT reaches the target fitness, the smaller the neural networks are, simply because then there have been less mutations. So to get neural networks with minimal structure, one should take more tries with less epochs instead of less tries with a high number of epochs. The higher the epoch number, the more complex are the resulting neural networks, given there is a chance for the \textit{Add Node Mutation}.
+
+\section{NEAT-TCP Applicability}\label{sec:neatApplicability}
+In this work NEAT-TCP was only tested in wireless multi-hop networks in grid structures. This is a rather complex environment for congestion control. NEAT-TCP should work as well in other kinds of networks. Then maybe other parameters for the neural network should be used. The parameters should represent the current congestion state. E.g. number of consecutive timeouts should not be used in a wired network since here timeouts would occur not because of congestion.\\\\
+In an industrial context NEAT-TCP could be evolved before installation of the wireless multi-hop network and then shipped with it. With more computing power several scenarios can be tested within the evolution evaluation, thus covering a wider range of possible ways the network could behave.
+
+\section{Future Work}\label{sec:futureWork}
+In this section multiple ideas are mentioned for future work on NEAT-TCP.
+\begin{itemize}
+	\item{\textbf{Parallelise ns-3:} For a faster evolution, the next step would be to provide parallelisation. Right now, in an evolution the population has to be evaluated one by one, because ns-3 is not thread-safe. By providing parallel evaluation of the population the evolution would speed up by a factor of n, where n is the number of threads. This is because the simulation is the only part of NEAT-TCP that takes time. With doing this, an evolution would not take days or weeks, but rather hours.}
+	\item{\textbf{Provide a larger population size:} Because of time constraints, we only considered a population size of 500. In future evolutions with more time, or a parallelised setup, a higher population size should be considered. With a larger population size the number of diversity in mutations is also higher, hence providing a higher chance of evolving neural networks of minimal structure. This could be mandatory for energy restricted nodes, because there should be a huge difference in energy consumption between a small neural network and a big one.}
+	\item{\textbf{Provide more scenarios within the evaluation of the evolution:} Because of time constraints, we only considered one network scenario of all flows starting at the same time in a 5x5 grid and simulated it for only 40 seconds. In future evolutions of NEAT-TCP more scenarios should be considered, covering a wide range of possible network configurations. For example, if the nodes can move randomly, some movement pattern should be provided and the neural network has to satisfy in all of these scenarios. Also, the networks could be simulated longer. In our tests, NEAT-TCP1 and 2, even though they were simulated with 40s simulation time, held up their performance for 300 seconds. In general, it should be tested how far network specifications can be generalised in regards to wireless multi-hop networks.}
+	\item{\textbf{Give NEAT-TCP more possibilities:} At the moment, NEAT-TCP only changes the congestion window and only reacts whenever a packet is acknowledged, or the socket says it wants to increase the congestion window. NEAT-TCP could also change the segment size. Or one could think of integrating the congestion states as inputs. The variety of changing NEAT-TCP is sheer endless. Also, to get away from TCP, NEAT could also evolve neural networks for routing, NEAT-Routing. The approach would be the same like NEAT-TCP, but the resulting NNs would be injected to route.}
+	\item{\textbf{Extend NEAT to support multiple activation functions:} Right now, NEAT is restricted to only one activation function for the whole neural network. By extending NEAT to support multiple activation functions and an activation function mutation or randomly set activation functions a higher variety of neural networks could be evolved.}
+	\item{\textbf{Evaluate NEAT-TCP on a real testbed:} In order to be sure NEAT-TCP does not only work in simulations it should be tested on a real testbed. For that purpose the testbed needs to be modelled in ns-3. Also, the interferences should be taken into account. After the evolution is over, the NEAT-TCP NN is coded into the testbed nodes and then evaluated. If the results are comparable to the ones from the simulation, NEAT-TCP can be adopted. A study should also be conducted on how close to reality the network model needs to be.}
+\end{itemize}
+
+%************************************************
+\chapter{Conclusion}\label{ch:conclusion} % $\mathbb{ZNR}$
+%************************************************
+\glsresetall % Resets all acronyms to not used
+Evolving neural networks to perform congestion control in wireless multi-hop networks has hereby been done, to the best of our knowledge, for the first time. 
+Congestion control in wireless multi-hop networks with conventional congestion control like TCP New Reno suffers bad performances \cite{wcp}, as channel disturbances and interferences leading to frame loss may mistakenly trigger congestion mechanisms and hence reduce the network`s performance.\\
+In this work, we present NEAT-TCP, a novel approach to congestion control that automatically generates congestion control algorithms in a data-driven fashion while optimising towards a specific global system utility. It is highly variable and can be extended in sheer endless ways.\\
+We also port iTCP from ns-2 to ns-3 to test the neural networks evolved by NEAT-TCP in relation to another neural network based congestion control algorithm. \\
+We conduct twelve experiments, each with a different configuration and evaluate the best two neural networks evolved in these experiments. Our evaluation consists of testing in three different sized wireless multi-hop grid topologies for 100 runs each, measuring total network throughput, fairness, mean end-to-end delay and packet loss.\\
+NEAT-TCP1, a neural network that is optimised towards a combination of total throughput and fairness between flows, outperforms TCP New Reno and iTCP in several respects. NEAT-TCP1  achieves 69\% more fairness, 66\% less mean end-to-end delay and 71\% less packet loss in relation to TCP New Reno at the cost of 19\% less overall throughput.
+
+
+
+

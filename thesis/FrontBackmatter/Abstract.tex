@@ -1,0 +1,39 @@
+%*******************************************************
+% Abstract
+%*******************************************************
+%\renewcommand{\abstractname}{Abstract}
+\pdfbookmark[1]{Abstract}{Abstract}
+\begingroup
+\let\clearpage\relax
+\let\cleardoublepage\relax
+\let\cleardoublepage\relax
+
+\chapter*{Abstract}
+The problem of congestion control in computer networks has been addressed by a broad range of algorithms and implementations, most notably a large body of well-known TCP congestion control algorithms, explicit congestion notification, and active queue management.
+However, many of these methods are not suitable for wireless multi-hop networks as channel disturbances and interferences leading to frame loss may mistakenly trigger congestion mechanisms and hence reduce the network's performance.
+Further, the dissemination of explicit congestion notification might generate additional overhead or be unreliable.\\
+In this work, we present NEAT-TCP, a novel approach to congestion control that automatically generates congestion control algorithms in a data-driven fashion while optimising towards a specific global system utility.
+NEAT-TCP models a congestion control algorithm as a neural network (NN) in each node and evolves a population of NNs by means of an evolutionary algorithm called NEAT which augments the topologies of the NNs, and applies mutation and speciation in order to steer the evolutionary process towards a targeted system goal.
+NEAT-TCP generates NNs that run independently at the nodes and take only features as inputs that are locally available at these nodes, i.e., it does not utilise explicit congestion notifications.
+We generate and evaluate NNs by means of the original NEAT algorithm in ns-3 simulations.
+In particular, we let NEAT-TCP evolve NNs both towards overall throughput maximisation and for a combined maximisation of overall throughput and throughput fairness between flows according to Jain's fairness index.\\
+Our evaluation shows that NNs generated through NEAT-TCP outperform TCP New Reno and iTCP, another congestion control flavour based on neural networks, in several respects.
+When combined with fairness, NNs generated through NEAT-TCP achieve 69\% more fairness, 66\% less mean end-to-end delay and 71\% less packet loss in relation to TCP New Reno at the cost of 19\% less overall throughput.
+\newpage
+\vfill
+
+\selectlanguage{ngerman}
+\pdfbookmark[1]{Zusammenfassung}{Zusammenfassung}
+\chapter*{Zusammenfassung}
+\textit{Congestion Control} in Computer-Netzwerken wird von vielen Algorithmen und Implementationen behandelt, insbesondere von vielen bekannten TCP \textit{Congestion-Control}-Algorithmen zur expliziter Benachrichtigung \"uber \textit{Congestion} und aktivem \textit{Queue Management}.
+Aber viele dieser Methoden sind nicht geeignet f\"ur \textit{Wireless Multi-Hop} Netzwerke, da durch Kanalst\"orungen und Interferenzen auftretende \textit{Frame Losses} f\"alschlicherweise diese \textit{Congestion}-Mechanismen ausgel\"ost werden und daher die Performanz reduzieren. Die Verbreitung von expliziter Benachrichtigung \"uber \textit{Congestion} k\"onnte zus\"atzlichen Overhead generieren sowie unzuverl\"assig sein.\\
+In dieser Arbeit pr\"asentieren wir NEAT-TCP, einen neuartigen Ansatz f\"ur \textit{Congestion Control}, wobei \textit{Congestion Control} Algorithmen datengetrieben generiert und dabei in Hinsicht auf globale Metriken optimiert werden. NEAT-TCP generiert einen \textit{Congestion-Control}-Algorithmus in Form eines neuronalen Netzes (NN) f\"ur jeden Knoten mittels \\ NEAT, einem genetischen Algorithmus, welcher eine Population von NNs entwickelt. Dabei werden diese NNs mutiert, aber auch strukturell erweitert und in eigene Spezies eingeteilt, um NNs zu erm\"oglichen, sich in eigenen Nischen weiterzuentwickeln.
+NEAT-TCP generiert NNs welche selbst\"andig an den Knoten laufen und nehmen daf\"ur nur Eigenschaften als Inputs, welche lokal an diesen Knoten verf\"ugbar sind und nutzt keine explizite Benachrichtigung \"uber \textit{Congestion}.
+Wir generieren und evaluieren NNs mittels des originalen \\ NEAT Algorithmus in ns-3-Simulationen. Insbesondere lassen wir NEAT-TCP NNs f\"ur maximalen Gesamtdurchsatz und f\"ur eine Kombination von maximalen Gesamtdurchsatz und Fairness der \textit{Flows} gem\"a{\ss} des Jain`s Fairness Indices entwickeln. 
+Unsere Evaluation zeigt, dass von NEAT-TCP evolvierte NNs TCP New Reno und iTCP, einem anderen auf neuralen Netzen basierenden \textit{Congestion Control} Algorithmus, in vielen Hinsichten \"ubertreffen. Wenn auf die Kombination von Fairness und maximalen Gesamtdurchsatz hin optimiert wird, erreichen von NEAT-TCP generierte NNs eine um 69\% h\"ohere Fairness, 66\% weniger \textit{end-to-end Delay} und 71\% weniger \textit{Packet Loss} gegen\"uber TCP New Reno zum Preis von 19\% weniger Gesamtdurchsatz.
+
+\selectlanguage{american}
+
+\endgroup			
+
+\vfill
